@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EmployeeFormProject-impl" basedir="..">
+    <target name="default" depends="build" description="Build and run project."/>
+    <target name="build" description="Build the project.">
+        <echo>Building EmployeeFormProject...</echo>
+    </target>
+    <target name="clean" description="Clean the project.">
+        <delete dir="build"/>
+        <delete dir="dist"/>
+    </target>
+</project>

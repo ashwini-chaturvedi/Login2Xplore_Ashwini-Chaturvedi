@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Employee Data Form | EMP-DB</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+            padding: 36px 40px 30px;
+            max-width: 560px;
+            width: 100%;
+        }
+
+        .card-header-section {
+            border-bottom: 2px solid #2c5f8a;
+            margin-bottom: 28px;
+            padding-bottom: 14px;
+        }
+
+        .card-header-section h2 {
+            color: #1a3a56;
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0 0 2px 0;
+            letter-spacing: 0.3px;
+        }
+
+        .card-header-section p {
+            color: #7a8fa6;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .db-badge {
+            display: inline-block;
+            background: #e8f0f9;
+            color: #2c5f8a;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .form-group label {
+            color: #3a4a5a;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-group .field-msg {
+            font-size: 11px;
+            margin-left: 6px;
+            font-weight: 500;
+        }
+
+        .form-group .field-msg.new-id {
+            color: #27ae60;
+        }
+
+        .form-group .field-msg.existing-id {
+            color: #e67e22;
+        }
+
+        .form-control {
+            border-radius: 6px;
+            border: 1px solid #c5d3e0;
+            font-size: 14px;
+            height: 38px;
+            color: #2c3e50;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: #2c5f8a;
+            box-shadow: 0 0 0 3px rgba(44, 95, 138, 0.15);
+            outline: none;
+        }
+
+        .form-control:disabled, .form-control[disabled] {
+            background-color: #f5f7fa;
+            color: #aab4be;
+            cursor: not-allowed;
+        }
+
+        .form-row-half {
+            display: flex;
+            gap: 16px;
+        }
+
+        .form-row-half .form-group {
+            flex: 1;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #9aacbe;
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e8edf2;
+        }
+
+        .btn-bar {
+            display: flex;
+            gap: 10px;
+            margin-top: 28px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 24px;
+            letter-spacing: 0.2px;
+            transition: all 0.15s;
+        }
+
+        .btn-save {
+            background: #2c5f8a;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-save:hover:not(:disabled) {
+            background: #1e4570;
+            color: #fff;
+        }
+
+        .btn-change {
+            background: #e67e22;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-change:hover:not(:disabled) {
+            background: #ca6f1e;
+            color: #fff;
+        }
+
+        .btn-reset {
+            background: #fff;
+            color: #5a6a7a;
+            border: 1px solid #c5d3e0;
+        }
+
+        .btn-reset:hover:not(:disabled) {
+            background: #f0f4f8;
+            color: #3a4a5a;
+        }
+
+        .btn:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+        }
+
+        .status-bar {
+            margin-top: 18px;
+            min-height: 28px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .status-bar .alert {
+            padding: 7px 14px;
+            border-radius: 6px;
+            margin: 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="card">
+        <div class="card-header-section">
+            <span class="db-badge">EMP-DB &rsaquo; EmpData</span>
+            <h2>Employee Record Form</h2>
+            <p>Enter an Employee ID to create a new record or look up an existing one.</p>
+        </div>
+
+        <form id="empForm" autocomplete="off">
+            <!-- Employee ID -->
+            <div class="form-group">
+                <label for="empId">
+                    Employee ID
+                    <span class="field-msg" id="empIdMsg"></span>
+                </label>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" class="form-control" id="empId" name="id"
+                           placeholder="Enter Employee ID" style="flex:1;" />
+                    <button type="button" class="btn btn-save" id="btnLookup"
+                            onclick="lookupEmployee()" style="white-space:nowrap; padding:8px 16px;">
+                        Search &#8594;
+                    </button>
+                </div>
+            </div>
+
+            <!-- Employee Name -->
+            <div class="form-group">
+                <label for="empName">Employee Name</label>
+                <input type="text" class="form-control" id="empName" name="name"
+                       placeholder="Full name" disabled />
+            </div>
+
+            <div class="section-label">Salary Breakdown</div>
+
+            <!-- Salary + HRA -->
+            <div class="form-row-half">
+                <div class="form-group">
+                    <label for="empSalary">Basic Salary (₹)</label>
+                    <input type="number" class="form-control" id="empSalary" name="salary"
+                           placeholder="0.00" min="0" step="0.01" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="empHRA">HRA (₹)</label>
+                    <input type="number" class="form-control" id="empHRA" name="hra"
+                           placeholder="0.00" min="0" step="0.01" disabled />
+                </div>
+            </div>
+
+            <!-- DA + Deduction -->
+            <div class="form-row-half">
+                <div class="form-group">
+                    <label for="empDA">DA (₹)</label>
+                    <input type="number" class="form-control" id="empDA" name="da"
+                           placeholder="0.00" min="0" step="0.01" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="empDeduction">Deduction (₹)</label>
+                    <input type="number" class="form-control" id="empDeduction" name="deduction"
+                           placeholder="0.00" min="0" step="0.01" disabled />
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-bar">
+                <button type="button" class="btn btn-reset" id="btnReset" disabled onclick="resetForm()">
+                    Reset
+                </button>
+                <button type="button" class="btn btn-save" id="btnSave" disabled onclick="saveEmployee()">
+                    Save
+                </button>
+                <button type="button" class="btn btn-change" id="btnChange" disabled onclick="changeEmployee()">
+                    Change
+                </button>
+            </div>
+        </form>
+
+        <div class="status-bar" id="statusBar"></div>
+    </div>
+</div>
+
+<script>
+    /* ───────── Configuration ───────── */
+    const DB_BASE_URL   = "http://api.login2explore.com:5577";
+    const API_IML       = "/api/iml";
+    const API_IRL       = "/api/irl";
+    const CONN_TOKEN    = "90935177|-31949239634005669|90958751";
+    const DB_NAME       = "EMP-DB";
+    const REL_NAME      = "EmpData";
+
+    /* ───────── State ───────── */
+    let currentRecNo = null; // stores rec_no returned by GET for update
+
+    /* ───────── Startup ───────── */
+    $(document).ready(function () {
+        initForm();
+        $("#empId").on("keydown", function (e) {
+            if (e.key === "Enter" || e.key === "Tab") {
+                e.preventDefault();
+                lookupEmployee();
+            }
+        });
+    });
+
+    /* ───────── Init / Reset ───────── */
+    function initForm() {
+        // Clear all fields
+        $("#empId, #empName, #empSalary, #empHRA, #empDA, #empDeduction").val("");
+        // Enable only ID field
+        $("#empId").prop("disabled", false);
+        setFieldsDisabled(true);
+        // Disable all buttons
+        $("#btnSave, #btnChange, #btnReset").prop("disabled", true);
+        // Clear messages
+        $("#empIdMsg").text("").removeClass("new-id existing-id");
+        clearStatus();
+        currentRecNo = null;
+        $("#btnLookup").prop("disabled", false);
+        $("#empId").focus();
+    }
+
+    function resetForm() {
+        initForm();
+    }
+
+    /* ───────── Enable helpers ───────── */
+    function setFieldsDisabled(state) {
+        $("#empName, #empSalary, #empHRA, #empDA, #empDeduction").prop("disabled", state);
+    }
+
+    /* ───────── Lookup ───────── */
+    function lookupEmployee() {
+        var id = $("#empId").val().trim();
+        if (id === "") {
+            showStatus("Please enter an Employee ID first.", "warning");
+            $("#empId").focus();
+            return;
+        }
+
+        var getReq = createGETRequest(id);
+        jQuery.ajaxSetup({ async: false });
+        var result = executeCommand(getReq, DB_BASE_URL, API_IRL);
+        jQuery.ajaxSetup({ async: true });
+
+        if (!result) {
+            showStatus("Could not connect to the database.", "danger");
+            return;
+        }
+
+        if (result.status === 400) {
+            // ID not found → new record
+            currentRecNo = null;
+            $("#empIdMsg").text("✦ New ID").removeClass("existing-id").addClass("new-id");
+            setFieldsDisabled(false);
+            $("#btnSave, #btnReset").prop("disabled", false);
+            $("#btnChange").prop("disabled", true);
+            $("#empId").prop("disabled", false);
+            clearStatus();
+            $("#empName").focus();
+
+        } else if (result.status === 200) {
+            // ID found → load data
+            // JPDB returns: { status:200, data: { rec_no: N, record: {...} } }
+            // JPDB: result.data may be a JSON string or object
+            var recData = (typeof result.data === "string") ? JSON.parse(result.data) : result.data;
+            currentRecNo = recData.rec_no;
+            // record fields live inside recData.record
+            var rec = recData.record || recData;
+
+            $("#empName").val(rec.name || "");
+            $("#empSalary").val(rec.salary || "");
+            $("#empHRA").val(rec.hra || "");
+            $("#empDA").val(rec.da || "");
+            $("#empDeduction").val(rec.deduction || "");
+
+            $("#empIdMsg").text("✦ Existing record").removeClass("new-id").addClass("existing-id");
+            setFieldsDisabled(false);
+            $("#btnChange, #btnReset").prop("disabled", false);
+            $("#btnSave").prop("disabled", true);
+            $("#empId").prop("disabled", true);
+            $("#btnLookup").prop("disabled", true);
+            clearStatus();
+            $("#empName").focus();
+
+        } else {
+            showStatus("Unexpected response: " + JSON.stringify(result), "danger");
+        }
+    }
+
+    /* ───────── Validation ───────── */
+    function validateForm() {
+        var fields = [
+            { id: "#empName",      label: "Employee Name" },
+            { id: "#empSalary",    label: "Basic Salary" },
+            { id: "#empHRA",       label: "HRA" },
+            { id: "#empDA",        label: "DA" },
+            { id: "#empDeduction", label: "Deduction" },
+        ];
+        for (var i = 0; i < fields.length; i++) {
+            var val = $(fields[i].id).val().trim();
+            if (val === "" || val === null) {
+                showStatus(fields[i].label + " cannot be empty.", "danger");
+                $(fields[i].id).focus();
+                return null;
+            }
+        }
+        return {
+            id:        $("#empId").val().trim(),
+            name:      $("#empName").val().trim(),
+            salary:    parseFloat($("#empSalary").val()),
+            hra:       parseFloat($("#empHRA").val()),
+            da:        parseFloat($("#empDA").val()),
+            deduction: parseFloat($("#empDeduction").val()),
+        };
+    }
+
+    /* ───────── Save (PUT) ───────── */
+    function saveEmployee() {
+        var data = validateForm();
+        if (!data) return;
+
+        var putReq = createPUTRequest(data);
+
+        jQuery.ajaxSetup({ async: false });
+        var result = executeCommand(putReq, DB_BASE_URL, API_IML);
+        jQuery.ajaxSetup({ async: true });
+
+        if (result && result.status === 200) {
+            showStatus("Record saved successfully! (ID: " + data.id + ")", "success");
+            setTimeout(resetForm, 1500);
+        } else {
+            showStatus("Save failed: " + (result ? result.message : "No response"), "danger");
+        }
+    }
+
+    /* ───────── Change (UPDATE) ───────── */
+    function changeEmployee() {
+        var data = validateForm();
+        if (!data) return;
+
+        if (!currentRecNo) {
+            showStatus("Record number not found. Cannot update.", "danger");
+            return;
+        }
+
+        var updateReq = createUPDATERequest(data, currentRecNo);
+
+        jQuery.ajaxSetup({ async: false });
+        var result = executeCommand(updateReq, DB_BASE_URL, API_IML);
+        jQuery.ajaxSetup({ async: true });
+
+        if (result && result.status === 200) {
+            showStatus("Record updated successfully! (ID: " + data.id + ")", "success");
+            setTimeout(resetForm, 1500);
+        } else {
+            showStatus("Update failed: " + (result ? result.message : "No response"), "danger");
+        }
+    }
+
+    /* ───────── Request Builders ───────── */
+    function createGETRequest(id) {
+        return JSON.stringify({
+            token:   CONN_TOKEN,
+            cmd:     "GET_BY_KEY",
+            dbName:  DB_NAME,
+            rel:     REL_NAME,
+            jsonStr: { id: id }
+        });
+    }
+
+    function createPUTRequest(data) {
+        return JSON.stringify({
+            token:  CONN_TOKEN,
+            cmd:    "PUT",
+            dbName: DB_NAME,
+            rel:    REL_NAME,
+            jsonStr: data
+        });
+    }
+
+    function createUPDATERequest(data, recNo) {
+        // JPDB UPDATE spec: rec_no is a KEY inside jsonStr, not a top-level field
+        // { "jsonStr": { "<rec_no>": { ...fields } } }
+        var jsonStr = {};
+        jsonStr[recNo] = data;
+        return JSON.stringify({
+            token:  CONN_TOKEN,
+            cmd:    "UPDATE",
+            dbName: DB_NAME,
+            rel:    REL_NAME,
+            jsonStr: jsonStr
+        });
+    }
+
+    /* ───────── AJAX Execute ───────── */
+    function executeCommand(reqString, baseUrl, endpoint) {
+        var url = baseUrl + endpoint;
+        var jsonObj;
+        // NOTE: Do NOT set contentType to "application/json" — it triggers a CORS preflight
+        // that JPDB does not handle. Sending as plain text (default) avoids the preflight.
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: reqString,
+            async: false,
+            success: function (result) {
+                jsonObj = (typeof result === "string") ? JSON.parse(result) : result;
+            },
+            error: function (xhr) {
+                // JPDB returns 400 via error channel when key not found — still parse it
+                try { jsonObj = JSON.parse(xhr.responseText); }
+                catch(e) { jsonObj = null; }
+            }
+        });
+        return jsonObj;
+    }
+
+    /* ───────── Status Bar ───────── */
+    function showStatus(msg, type) {
+        // type: success | danger | warning | info
+        var icons = { success: "✓", danger: "✗", warning: "⚠", info: "ℹ" };
+        var icon = icons[type] || "";
+        $("#statusBar").html(
+            '<div class="alert alert-' + type + '">' + icon + ' ' + msg + '</div>'
+        );
+    }
+
+    function clearStatus() {
+        $("#statusBar").html("");
+    }
+</script>
+</body>
+</html>

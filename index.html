@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Enrollment Form</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      background: #fff;
+      min-height: 100vh;
+      font-family: 'Poppins', Arial, sans-serif;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .panel-heading-gradient {
+      background: linear-gradient(90deg, #667eea, #764ba2) !important;
+      color: #ffffff !important;
+    }
+    .text-purple {
+      color: #9b59b6;
+    }
+    .required-star {
+      color: #e74c3c;
+    }
+    .form-container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container form-container">
+
+  <div class="text-center style-header" style="margin-bottom: 30px;">
+    <h2 style="color: #666; font-weight: 600; margin-bottom: 5px;">Student Enrollment Form</h2>
+    <p style="color: #666; font-size: 13px;">SCHOOL-DB &nbsp;·&nbsp; STUDENT-TABLE</p>
+  </div>
+
+  <div class="panel panel-default" style="border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); border: none; overflow: hidden;">
+    
+    <div class="" style="padding: 16px 24px; border: none;">
+      <div class="media">
+        <div class="media-body">
+          <h4 class="media-heading" style="font-weight: 600; margin-bottom: 2px;">Fill Student Details</h4>
+          <p style="color: #666; font-size: 12px; margin: 0;">Enter Roll No. first to create or update a record</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body" style="padding: 28px;">
+
+      <div id="statusMsg" class="alert" style="display: none; border-radius: 8px; font-weight: 500;"></div>
+
+      <form id="studentForm">
+
+        <legend class="text-purple" style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #f0eafa; padding-bottom: 5px;">Primary Key</legend>
+
+        <div class="form-group">
+          <label for="rollNo" style="font-size: 12px; font-weight: 600; color: #555;">Roll No. <span class="required-star">*</span></label>
+          <input type="text" class="form-control" id="rollNo"
+                 placeholder="e.g. 2024CSE001"
+                 onblur="checkRollNo()" autocomplete="off" style="border-radius: 8px; border-color: #b39ddb; height: 40px;" />
+          <span class="help-block" style="font-size: 11px; color: #aaa; margin-top: 4px;">Enter Roll No. first — we'll check if it already exists</span>
+        </div>
+
+        <legend class="text-purple" style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid #f0eafa; padding-bottom: 5px;">Personal Info</legend>
+
+        <div class="form-group">
+          <label for="fullName" style="font-size: 12px; font-weight: 600; color: #555;">Full Name <span class="required-star">*</span></label>
+          <input type="text" class="form-control" id="fullName"
+                 placeholder="Student's full name" disabled style="border-radius: 8px; height: 40px;" />
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6 form-group">
+            <label for="className" style="font-size: 12px; font-weight: 600; color: #555;">Class <span class="required-star">*</span></label>
+            <input type="text" class="form-control" id="className"
+                   placeholder="e.g. 10-A" disabled style="border-radius: 8px; height: 40px;" />
+          </div>
+          <div class="col-sm-6 form-group">
+            <label for="birthDate" style="font-size: 12px; font-weight: 600; color: #555;">Date of Birth <span class="required-star">*</span></label>
+            <input type="date" class="form-control" id="birthDate" disabled style="border-radius: 8px; height: 40px;" />
+          </div>
+        </div>
+
+        <legend class="text-purple" style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid #f0eafa; padding-bottom: 5px;">Other Details</legend>
+
+        <div class="form-group">
+          <label for="address" style="font-size: 12px; font-weight: 600; color: #555;">Address <span class="required-star">*</span></label>
+          <input type="text" class="form-control" id="address"
+                 placeholder="Full residential address" disabled style="border-radius: 8px; height: 40px;" />
+        </div>
+
+        <div class="form-group">
+          <label for="enrollDate" style="font-size: 12px; font-weight: 600; color: #555;">Enrollment Date <span class="required-star">*</span></label>
+          <input type="date" class="form-control" id="enrollDate" disabled style="border-radius: 8px; height: 40px;" />
+        </div>
+
+        <div class="row" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #f0f0f0;">
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-success btn-block" id="btnSave" disabled onclick="saveStudent()" style="border-radius: 8px; font-weight: 600; padding: 10px 12px;">Save</button>
+          </div>
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-warning btn-block" id="btnUpdate" disabled onclick="updateStudent()" style="border-radius: 8px; font-weight: 600; padding: 10px 12px; background-color: #f39c12; border-color: #f39c12; color: #fff;">Update</button>
+          </div>
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-default btn-block" id="btnReset" disabled onclick="resetForm()" style="border-radius: 8px; font-weight: 600; padding: 10px 12px; background-color: #ecf0f1; color: #666; border: none;">Reset</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <p class="text-center" style="color: #666; font-size: 11px; margin-top: 20px;">Made with JsonPowerDB &copy; login2explore.com</p>
+
+</div>
+
+<script>
+
+  var CONN_TOKEN = "90935179|-31949239622739896|90958731";
+  var DB_NAME    = "SCHOOL-DB";
+  var REL_NAME   = "STUDENT-TABLE";
+  var BASE_URL   = "http://api.login2explore.com:5577";
+  var IML_API    = "/api/iml";
+  var IRL_API    = "/api/irl";
+  
+  // Global variable to store the record number for update execution
+  var saveRecNo = "";
+
+  window.onload = function() { initForm(); };
+
+  function showStatus(msg, type) {
+    var el = document.getElementById("statusMsg");
+    el.className = "status-msg alert show alert-" + type;
+    el.style.display = "block";
+    el.innerHTML = msg;
+  }
+
+  function hideStatus() {
+    var el = document.getElementById("statusMsg");
+    el.className = "status-msg alert";
+    el.style.display = "none";
+    el.innerHTML = "";
+  }
+
+  function initForm() {
+    resetAllFields();
+    disableAllFields();
+    document.getElementById("rollNo").disabled = false;
+    disableButtons();
+    document.getElementById("rollNo").focus();
+    hideStatus();
+    saveRecNo = ""; // Clear stored RecNo on form reset
+  }
+
+  var dataFields = ["fullName", "className", "birthDate", "address", "enrollDate"];
+
+  function disableAllFields() {
+    dataFields.forEach(function(id) { document.getElementById(id).disabled = true; });
+    document.getElementById("rollNo").disabled = true;
+  }
+
+  function enableDataFields() {
+    dataFields.forEach(function(id) { document.getElementById(id).disabled = false; });
+  }
+
+  function disableButtons() {
+    document.getElementById("btnSave").disabled   = true;
+    document.getElementById("btnUpdate").disabled = true;
+    document.getElementById("btnReset").disabled  = true;
+  }
+
+  function resetAllFields() {
+    ["rollNo","fullName","className","birthDate","address","enrollDate"].forEach(function(id) {
+      document.getElementById(id).value = "";
+    });
+  }
+
+  function checkRollNo() {
+    var rollNo = $("#rollNo").val().trim();
+    if (rollNo === "") {
+      showStatus("Please enter a Roll No. first!", "warning");
+      return;
+    }
+
+    showStatus("Checking Roll No. in database...", "info");
+
+    var getReq = createGET_BY_KEYRequest(
+      CONN_TOKEN, DB_NAME, REL_NAME,
+      JSON.stringify({ "Roll-No": rollNo })
+    );
+
+    jQuery.ajaxSetup({ async: false });
+    var result = executeCommandAtGivenBaseUrl(getReq, BASE_URL, IRL_API);
+    jQuery.ajaxSetup({ async: true });
+
+    if (result.status === 400) {
+      showStatus("Roll No. <b>" + rollNo + "</b> not found &mdash; fill in the details and click <b>Save</b>.", "info");
+      enableDataFields();
+      document.getElementById("rollNo").disabled    = true;
+      document.getElementById("btnSave").disabled   = false;
+      document.getElementById("btnReset").disabled  = false;
+      document.getElementById("btnUpdate").disabled = true;
+      document.getElementById("fullName").focus();
+
+    } else if (result.status === 200) {
+      // Parse the response data container wrapper properly
+      var parsedData = JSON.parse(result.data);
+      
+      // Capture and cache the internal database record number (RecNo)
+      saveRecNo = parsedData.rec_no; 
+      
+      var data = parsedData.record;
+      document.getElementById("fullName").value   = data["Full-Name"]       || "";
+      document.getElementById("className").value  = data["Class"]            || "";
+      document.getElementById("birthDate").value  = data["Birth-Date"]       || "";
+      document.getElementById("enrollDate").value = data["Enrollment-Date"]  || "";
+      document.getElementById("address").value    = data["Address"]          || "";
+
+      showStatus("Record found for Roll No. <b>" + rollNo + "</b> &mdash; edit fields and click <b>Update</b>.", "success");
+      enableDataFields();
+      document.getElementById("rollNo").disabled    = true;
+      document.getElementById("btnUpdate").disabled = false;
+      document.getElementById("btnReset").disabled  = false;
+      document.getElementById("btnSave").disabled   = true;
+      document.getElementById("fullName").focus();
+
+    } else {
+      showStatus("Error: " + result.message, "danger");
+    }
+  }
+
+  function getValidatedData() {
+    var fields = [
+      { id: "rollNo",    label: "Roll No." },
+      { id: "fullName",  label: "Full Name" },
+      { id: "className", label: "Class" },
+      { id: "birthDate", label: "Date of Birth" },
+      { id: "address",   label: "Address" },
+      { id: "enrollDate",label: "Enrollment Date" }
+    ];
+
+    for (var i = 0; i < fields.length; i++) {
+      if ($("#" + fields[i].id).val().trim() === "") {
+        alert(fields[i].label + " is required!");
+        $("#" + fields[i].id).focus();
+        return "";
+      }
+    }
+
+    return JSON.stringify({
+      "Roll-No":         $("#rollNo").val().trim(),
+      "Full-Name":       $("#fullName").val().trim(),
+      "Class":           $("#className").val().trim(),
+      "Birth-Date":      $("#birthDate").val().trim(),
+      "Enrollment-Date": $("#enrollDate").val().trim(),
+      "Address":         $("#address").val().trim()
+    });
+  }
+
+  function saveStudent() {
+    var jsonStr = getValidatedData();
+    if (jsonStr === "") return;
+
+    var putReq = createPUTRequest(CONN_TOKEN, jsonStr, DB_NAME, REL_NAME);
+
+    jQuery.ajaxSetup({ async: false });
+    var result = executeCommandAtGivenBaseUrl(putReq, BASE_URL, IML_API);
+    jQuery.ajaxSetup({ async: true });
+
+    if (result.status === 200 || result.status === 201) {
+      showStatus("✅ Student record saved successfully!", "success");
+      setTimeout(function() { initForm(); }, 1500);
+    } else {
+      showStatus("Error while saving: " + result.message, "danger");
+    }
+  }
+
+  function updateStudent() {
+    var jsonStr = getValidatedData();
+    if (jsonStr === "") return;
+
+    // Correctly pass the globally tracked saveRecNo variable into the JPDB helper method
+    var updateReq = createUPDATERecordRequest(
+      CONN_TOKEN, jsonStr, DB_NAME, REL_NAME, saveRecNo
+    );
+
+    jQuery.ajaxSetup({ async: false });
+    var result = executeCommandAtGivenBaseUrl(updateReq, BASE_URL, IML_API);
+    jQuery.ajaxSetup({ async: true });
+
+    if (result.status === 200) {
+      showStatus("✅ Record updated successfully!", "success");
+      setTimeout(function() { initForm(); }, 1500);
+    } else {
+      showStatus("Error while updating: " + result.message, "danger");
+    }
+  }
+
+  function resetForm() { initForm(); }
+
+</script>
+</body>
+</html>

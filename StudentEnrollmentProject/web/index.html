@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student Enrollment Form | SCHOOL-DB</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="card">
+        <div class="card-top">
+            <span class="db-badge">SCHOOL-DB &rsaquo; STUDENT-TABLE</span>
+            <h2>&#127979; Student Enrollment Form</h2>
+            <p>Enter a Roll No to create a new record or look up an existing student.</p>
+        </div>
+        <div class="card-body">
+            <form id="studentForm" autocomplete="off">
+
+                <div class="section-label">Primary Key</div>
+                <div class="pk-row">
+                    <div class="form-group">
+                        <label for="rollNo">
+                            Roll No
+                            <span class="field-msg" id="rollNoMsg"></span>
+                        </label>
+                        <input type="text" class="form-control" id="rollNo"
+                               placeholder="e.g. STU-001" onchange="lookupStudent()" />
+                    </div>
+                </div>
+
+                <div class="section-label">Personal Details</div>
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" class="form-control" id="fullName"
+                           placeholder="Enter student's full name" disabled />
+                </div>
+                <div class="form-row-half">
+                    <div class="form-group">
+                        <label for="studentClass">Class</label>
+                        <input type="text" class="form-control" id="studentClass"
+                               placeholder="e.g. 10-A" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">Birth Date</label>
+                        <input type="date" class="form-control" id="birthDate" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" id="address"
+                           placeholder="Full residential address" disabled />
+                </div>
+
+                <div class="section-label">Enrollment</div>
+                <div class="form-group" style="max-width:280px;">
+                    <label for="enrollmentDate">Enrollment Date</label>
+                    <input type="date" class="form-control" id="enrollmentDate" disabled />
+                </div>
+
+                <div class="btn-bar">
+                    <button type="button" class="btn btn-reset"
+                            id="btnReset" disabled onclick="resetForm()">
+                        &#8635; Reset
+                    </button>
+                    <button type="button" class="btn btn-save"
+                            id="btnSave" disabled onclick="saveStudent()">
+                        &#10003; Save
+                    </button>
+                    <button type="button" class="btn btn-update"
+                            id="btnUpdate" disabled onclick="updateStudent()">
+                        &#9998; Update
+                    </button>
+                </div>
+            </form>
+            <div class="status-bar" id="statusBar"></div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Employee Data Form | EMP-DB</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="card">
+        <div class="card-header-section">
+            <span class="db-badge">EMP-DB &rsaquo; EmpData</span>
+            <h2>Employee Record Form</h2>
+            <p>Enter an Employee ID to create a new record or look up an existing one.</p>
+        </div>
+
+        <form id="empForm" autocomplete="off">
+            <!-- Employee ID -->
+            <div class="form-group">
+                <label for="empId">
+                    Employee ID
+                    <span class="field-msg" id="empIdMsg"></span>
+                </label>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" class="form-control" id="empId" name="id"
+                           placeholder="Enter Employee ID" style="flex:1;" onchange="lookupEmployee()"/>
+               
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="empName">Employee Name</label>
+                <input type="text" class="form-control" id="empName" name="name"
+                       placeholder="Full name" disabled />
+            </div>
+
+            <div class="section-label">Salary Breakdown</div>
+
+            <div class="form-row-half">
+                <div class="form-group">
+                    <label for="empSalary">Basic Salary (₹)</label>
+                    <input type="number" class="form-control" id="empSalary" name="salary"
+                           placeholder="0.00" min="0" step="0.01" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="empHRA">HRA (₹)</label>
+                    <input type="number" class="form-control" id="empHRA" name="hra"
+                           placeholder="0.00" min="0" step="0.01" disabled />
+                </div>
+            </div>
+            <div class="form-row-half">
+                <div class="form-group">
+                    <label for="empDA">DA (₹)</label>
+                    <input type="number" class="form-control" id="empDA" name="da"
+                           placeholder="0.00" min="0" step="0.01" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="empDeduction">Deduction (₹)</label>
+                    <input type="number" class="form-control" id="empDeduction" name="deduction"
+                           placeholder="0.00" min="0" step="0.01" disabled />
+                </div>
+            </div>
+            <div class="btn-bar">
+                <button type="button" class="btn btn-reset" id="btnReset" disabled onclick="resetForm()">
+                    Reset
+                </button>
+                <button type="button" class="btn btn-save" id="btnSave" disabled onclick="saveEmployee()">
+                    Save
+                </button>
+                <button type="button" class="btn btn-change" id="btnChange" disabled onclick="changeEmployee()">
+                    Change
+                </button>
+            </div>
+        </form>
+
+        <div class="status-bar" id="statusBar"></div>
+    </div>
+</div>
+
+<script src="script.js">
+   
+</script>
+</body>
+</html>

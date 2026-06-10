@@ -2,7 +2,7 @@
     const DB_BASE_URL   = "http://api.login2explore.com:5577";
     const API_IML       = "/api/iml";
     const API_IRL       = "/api/irl";
-    const CONN_TOKEN    = "90935177|-31949239634005669|90958751";
+    const CONN_TOKEN    = "";
     const DB_NAME       = "EMP-DB";
     const REL_NAME      = "EmpData";
 
